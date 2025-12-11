@@ -1,17 +1,34 @@
-import React, { useRef } from 'react';
+import React, { useRef } from "react";
 import gsap from "gsap";
 import { Tooltip } from "react-tooltip";
 import { dockApps } from "#constants/index.js";
 import { useGSAP } from "@gsap/react";
+import { useWindowStore } from "#store/window.js";
 
 const Dock = () => {
+    const { openWindow, closeWindow, windows } = useWindowStore();
     const dockRef = useRef(null);
 
+    // -----------------------------
+    //  WINDOW TOGGLE LOGIC
+    // -----------------------------
     const toggleApp = ({ id, canOpen }) => {
         if (!canOpen) return;
+
+        const win = windows[id];
+
+        if (win?.isOpen) {
+            closeWindow(id);
+        } else {
+            openWindow(id);
+        }
+
         console.log("Opening app:", id);
     };
 
+    // -----------------------------
+    //  DOCK ICON ANIMATIONS (GSAP)
+    // -----------------------------
     useGSAP(() => {
         const dock = dockRef.current;
         if (!dock) return;
@@ -61,6 +78,9 @@ const Dock = () => {
         };
     }, []);
 
+    // -----------------------------
+    //  UI RENDER
+    // -----------------------------
     return (
         <section id="dock">
             <div ref={dockRef} className="dock-container">
