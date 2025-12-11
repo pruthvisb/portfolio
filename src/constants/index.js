@@ -19,7 +19,7 @@ const navLinks = [
 const navIcons = [
     {
         id: 1,
-        img: "../../public/icons/wifi.svg",
+        img: "/icons/wifi.svg",
     },
     {
         id: 2,
